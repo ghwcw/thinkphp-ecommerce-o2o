@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>注册</title>
+    <link rel="stylesheet" href="__STATIC__/index/css/base.css" />
+    <link rel="stylesheet" href="__STATIC__/index/css/register.css" />
+    <link rel="stylesheet" href="__STATIC__/validform_v5.3.2/css/style.css" />
+
+    <script type="text/javascript" src="__STATIC__/index/js/html5shiv.js"></script>
+    <script type="text/javascript" src="__STATIC__/index/js/respond.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/admin/hui/lib/jquery/1.9.1/jquery.min.js"></script>
+
+</head>
+<body>
+    <div class="wrapper">
+        <div class="head">
+            <ul>  
+                <li><a href="#"><img src="__STATIC__/index/image/logo.png" alt="logo"></a></li>
+                <li class="divider"></li>
+                <li><a href="#">注册</a></li>
+            </ul>
+            <div class="login-link">
+                <span>我已注册，现在就</span>
+                <a href="{:url('index/User/login')}">登录</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <!--{:url('index/User/register')}-->
+            <form id="registerForm" method="post" action="#">
+                <p class="pass-form-item">
+                    <label class="pass-label">用户名</label>
+                    <input datatype="s4-20" nullmsg="用户名必填" errormsg="用户名只能是字母+数字且4-20位" sucmsg=" " type="text" name="userName" class="pass-text-input" placeholder="请设置用户名">
+                </p>
+                <p class="pass-form-item">
+                    <label class="pass-label">邮箱号</label>
+                    <input datatype="e" nullmsg="邮箱必填" errormsg="邮箱格式错误" sucmsg=" " type="text" name="email" class="pass-text-input" placeholder="可用于接受团购券账号和密码便于消费">
+                </p>
+                
+                <p class="pass-form-item">
+                    <label class="pass-label">密码</label>
+                    <input datatype="*4-9999" nullmsg="密码必填" errormsg="密码至少4位" sucmsg=" " type="text" name="password1" class="pass-text-input" placeholder="请设置登录密码">
+                </p>
+
+                <p class="pass-form-item">
+                    <label class="pass-label">确认密码</label>
+                    <input datatype="*4-9999" recheck="password1" nullmsg="密码必填" errormsg="两次密码不一致" sucmsg=" " type="text" name="password2" class="pass-text-input" placeholder="请设置登录密码">
+                </p>
+
+                <p class="pass-form-item">
+                    <label class="pass-label">验证码</label>
+                    <input type="text" name="verifyCode" class="pass-text-input " placeholder="请输入验证码">
+                    <div id="captcha">{:captcha_img()}</div>
+                </p>
+                
+                <p class="pass-form-item">
+                    <button id="regBtn" type="submit" class="pass-button">注册</button>
+                </p>
+            </form>
+           
+        </div>
+
+        <div class="foot">
+            <div>
+                <div>2021&nbsp;©&nbsp;o2o&nbsp;[开发者：汪春旺]</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="__STATIC__/validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/hui/lib/layer/2.1/layer.js"></script>
+
+<script type="text/javascript">
+    $('#registerForm input[name=userName]').focus();
+    $('#regBtn').click(function () {
+        $('#registerForm').Validform({     //验证
+            tiptype: 3,
+            beforeSubmit: function (xhr) {
+                let postData = $('#registerForm').serializeArray();
+                $.ajax({
+                    url: '{:url("index/User/register")}',
+                    data: postData,
+                    type: 'post',
+                    beforeSend: function(xhr){
+                        $('#regBtn').html('正在注册...');
+                        layer.load();
+
+                    },
+                    success: function (result) {
+                        let preUrl = location.search.slice(1);
+                        if (result.code===1){
+                            layer.msg(result.msg, {icon:1});
+                            if (!preUrl) {
+                                location.assign('{:url("index/User/login")}');
+                            }else{
+                                location.assign(preUrl);
+                            }
+                        }else{
+                            layer.msg(result.msg, {icon:2});
+                        }
+                        layer.closeAll('loading');
+                        $('#regBtn').html('注册');
+                        //更新验证码
+                        $('#captcha>img').trigger('click');
+
+                    },
+                    error: function (xhr) {
+                        $('#regBtn').html('注册');
+                        layer.msg(xhr.status + ': ' + xhr.statusText, function () {});
+                        layer.closeAll('loading');
+                        //更新验证码
+                        $('#captcha>img').trigger('click');
+
+                    },
+                    complete: function (xhr) {
+                        $('#regBtn').html('注册');
+                        layer.closeAll('loading');
+                        //更新验证码
+                        $('#captcha>img').trigger('click');
+
+                    }
+                });
+                return false;
+            }
+        });
+
+    });
+</script>
+
+

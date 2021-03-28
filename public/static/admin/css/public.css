@@ -1,0 +1,16 @@
+.pagination li{
+    display: inline;
+    padding-left: 10px;
+}
+
+.pagination li a{
+    display: inline;
+    padding-left: 10px;
+    color: blue;
+}
+
+input[class=listorder]{
+    width: 60px;
+    border: none;
+    text-align: center;
+}

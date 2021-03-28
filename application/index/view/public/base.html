@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{$title}</title>
+
+    <link rel="icon" href="__PUBLIC__/favicon.ico" >
+    <link rel="stylesheet" href="__STATIC__/index/css/base.css" />
+    <link rel="stylesheet" href="__STATIC__/index/css/common.css" />
+    <link rel="stylesheet" href="__STATIC__/index/css/index.css" />
+
+    <script type="text/javascript" src="__STATIC__/index/js/html5shiv.js"></script>
+    <script type="text/javascript" src="__STATIC__/index/js/respond.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/index/js/jquery-1.11.3.min.js"></script>
+
+</head>
+
+<body>
+<div class="header-bar">
+    <div class="header-inner">
+        <ul class="father">
+            <li><a>{$cityObj->name}</a></li>
+            <li>|</li>
+            <li class="city">
+                <a>切换城市<span class="arrow-down-logo"></span></a>
+                <div class="city-drop-down">
+                    <h3>热门城市</h3>
+                    <ul class="son">
+                        {volist name="cities" id="vo"}
+                            <li style="float: left"><a href="{:url('index/Index/index', ['city'=>$vo.id])}">{$vo.name ?:''}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </li>
+            {notempty name='username'}
+                <li id="logout"><a href="#">退出</a></li>
+                <li>|</li>
+                <li><a href="#">您好，{$username}</a></li>
+            {/notempty}
+
+            {empty name='username'}
+                <li><a href="{:url('index/User/register')}?{:getUrl()}">注册</a></li>
+                <li>|</li>
+                <li><a href="{:url('index/User/login')}?{:getUrl()}" id="base-login">登录</a></li>
+            {/empty}
+
+        </ul>
+    </div>
+</div>
+
+<div class="search">
+    <a href="{:url('index/Index/index')}"><img src="__STATIC__/index/image/logo.png" ></a>
+
+</div>
+
+<div class="nav-bar-header">
+    <div class="nav-inner">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <span class="item">全部分类</span>
+                <div class="left-menu">
+                    <!--大类-->
+                    {volist name="cateList" id="vo"}
+                        <div class="level-item">
+                            <div class="first-level">
+                                <dl>
+                                    <dt class="title"><a href="{:url('index/Lists/lists',['cityId'=>$cityId,'cateId'=>$vo.id])}" target="_top">{$vo.name}</a></dt>
+                                    <!--子类-->
+                                    {volist name="vo.subCate" id="subCate" length="2"}
+                                        <dd><a href="{:url('index/Lists/lists',['cityId'=>$cityId,'cateId'=>$vo.id,'subCateId'=>$subCate.id])}" target="_top" class="">{$subCate.name}</a></dd>
+                                    {/volist}
+                                </dl>
+                            </div>
+                            <div class="second-level">
+                                <div class="section">
+                                    <div class="section-item clearfix no-top-border">
+                                        <h3>热门分类</h3>
+                                        <ul>
+                                            <!--子类-->
+                                            {volist name="vo.subCate" id="subCate"}
+                                                <li><a href="{:url('index/Lists/lists',['cityId'=>$cityId,'cateId'=>$vo.id,'subCateId'=>$subCate.id])}" class="hot">{$subCate.name}</a></li>
+                                            {/volist}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {/volist}
+                </div>
+            </li>
+            <li class="nav-item"><a class="item first active" href="{:url('index/Index/index')}">首页</a></li>
+            <!--<li class="nav-item"><a class="item">团购</a></li>-->
+            <!--<li class="nav-item"><a class="item">商户</a></li>-->
+        </ul>
+    </div>
+</div>
+
+{block name='content'}主体内容{/block}
+
+<div class="footer-content">
+    <div class="copyright-info"></div>
+</div>
+
+</body>
+</html>
+
+<script type="text/javascript" src="__STATIC__/admin/hui/lib/layer/2.1/layer.js"></script>
+<script>
+    //退出系统操作
+    $('#logout').click(function () {
+        layer.confirm('您要退出系统吗？', {icon: 3}, function (index) {
+            layer.close(index);
+            $.ajax({
+                url: '{:url("index/User/logout")}',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==1){
+                        layer.msg('已安全退出系统！',{anim:6});
+                        location.assign("{:url('index/Index/index')}");
+                    }
+                },
+                error: function (xhr) {
+                    layer.msg('退出失败！');
+                }
+            });
+
+        })
+
+    });
+
+
+</script>
+
+

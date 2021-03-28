@@ -1,0 +1,154 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<script>
+  var SCOPE = {
+    'indexUrl': '{:url("bssystem/Index/index")}',
+  }
+</script>
+<body>
+<input type="hidden" id="TenantId" name="TenantId" value="" />
+<div class="header"><h1 style="text-align:center">商户登录系统</h1></div>
+<div class="loginWraper">
+  <div id="loginform" class="loginBox" style="margin-left: 360px">
+    <form id="userLogin" class="form form-horizontal" method="post" action="#">
+      <div class="row cl">
+        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+        <div class="formControls col-xs-8">
+          <input datatype="*4-20" nullmsg="用户名必填" errormsg="字符长度为4-20" sucmsg=" " style="width:400px" name="username" value="{notempty name='$userData.username'}{$userData.username}{/notempty}" type="text" placeholder="账户" class="input-text size-L" >
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+        <div class="formControls col-xs-8">
+          <input datatype="*4-20" nullmsg="密码必填" errormsg="密码长度为4-20" sucmsg=" " style="width:400px"  name="password" type="password" placeholder="密码" class="input-text size-L" >
+        </div>
+      </div>
+      
+      <div class="row cl">
+        <div class="formControls col-xs-8 col-xs-offset-3">
+          <button id="loginBtn" name="" type="submit" class="btn btn-success radius size-L" >&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;</button>
+          <button id="reset" name="" type="reset" class="btn btn-default radius size-L" >&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;</button>
+          <a href="{:url('bssystem/Register/index')}"><input name="apply" class="btn btn-success radius size-L" value="&nbsp;申&nbsp;&nbsp;&nbsp;&nbsp;请&nbsp;&nbsp;&nbsp;&nbsp;入&nbsp;&nbsp;&nbsp;&nbsp;驻&nbsp;"></a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="footer">Copyright tp5打造本地生活服务系统<div>2021&nbsp;©&nbsp;o2o&nbsp;[开发者：汪春旺]</div></div>
+
+</body>
+<!--包含尾部文件-->
+{include file="public/footer" /}
+
+<script type="text/javascript">
+
+  $('#userLogin input[name=username]').focus();
+
+  $('#loginBtn').click(function () {
+    $('#userLogin').Validform({
+        tiptype: 3,
+
+        beforeSubmit: function (form) {
+            let postData = $('#userLogin').serializeArray();
+            let loginUrl = $('#userLogin').attr('action');
+            let indexUrl = SCOPE.indexUrl;
+
+            $.ajax({
+                url: '/public/bssystem/Login/login',    //url直接写明确，不能是框架解析的！
+                data: postData,
+                type: 'post',
+                timeout: 2000,
+                cache: false,
+                success: function (result) {
+                    // console.log(result);
+                    if(result.code===1){
+                        layer.alert('登录成功，正在进入...', {title: '提示', time: 2000, btn: '', end: function () {
+                           location.assign('/public/bssystem/Index/index');   //url直接写明确，不能是框架解析的！
+                        }});
+
+                    }else {
+                        if (result.code === -10) {
+                            layer.alert(result.msg, {title: '警告'});
+                        } else if (result.code === -20) {
+                            layer.alert(result.msg, {title: '警告'});
+                        } else if (result.code === -30) {
+                           layer.alert(result.msg, {title: '警告'});
+                        } else if (result.code === -40) {
+                            layer.alert(result.msg, {title: '警告'});
+                        }
+                        else {
+                            layer.alert('未知错误', {title: '错误'});
+                        }
+
+                    }
+                },
+                beforeSend: function (xhr) {
+                    $('#loginBtn').html('&nbsp;正&nbsp;在&nbsp;登&nbsp;录&nbsp;.&nbsp;.&nbsp;.');
+
+                },
+                complete: function(xhr){
+                    $('#loginBtn').html('&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;');
+                },
+                error: function (xhr) {
+                    // console.log(xhr);
+                    if(xhr.status==0){
+                        layer.alert('系统繁忙，稍后再试~~');
+                        return;
+                    }
+                    layer.alert(xhr.status+': '+xhr.statusText);
+
+                }
+
+            });
+
+            return false;   //返回false则不提交表单
+
+        }
+
+    });
+
+
+  });
+
+    /*$(document).ajaxSend(function () {
+      $('#loginBtn').html('&nbsp;正&nbsp;&nbsp;在&nbsp;&nbsp;登&nbsp;&nbsp;录&nbsp;.&nbsp;.&nbsp;.');
+    });
+    $(document).ajaxComplete(function () {
+      $('#loginBtn').html('&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;');
+    });
+
+    $.post(loginUrl, postData, function (result) {
+      // console.log(result);
+      if(result.code===1){
+        layer.alert('登录成功，正在进入...', {title: '提示', time: 2000, btn: '', end: function () {
+            location.assign(indexUrl);
+          }});
+      }
+      else {
+        if (result.code === -10) {
+          layer.alert(result.msg, {title: '警告'});
+        } else if (result.code === -20) {
+          layer.alert(result.msg, {title: '警告'});
+        } else if (result.code === -30) {
+          layer.alert(result.msg, {title: '警告'});
+        } else if (result.code === -40) {
+          layer.alert(result.msg, {title: '警告'});
+        }
+        else {
+          layer.alert('未知错误', {title: '错误'});
+        }
+
+      }
+
+    });*/
+
+
+  //清空表单
+  $('#reset').click(function () {
+    $('#userLogin input[name!=apply]').attr('value','');
+    $('#userLogin input[name=username]').focus();
+  });
+
+</script>
+
+

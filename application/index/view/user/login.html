@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>登录</title>
+    <link rel="stylesheet" href="__STATIC__/index/css/base.css" />
+    <link rel="stylesheet" href="__STATIC__/index/css/login.css" />
+    <link rel="stylesheet" href="__STATIC__/validform_v5.3.2/css/style.css" />
+
+    <script type="text/javascript" src="__STATIC__/index/js/html5shiv.js"></script>
+    <script type="text/javascript" src="__STATIC__/index/js/respond.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/index/js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="head">
+            <ul>
+                <li><a href="index.html"><img src="__STATIC__/index/image/logo.png" alt="logo"></a></li>
+                <li class="divider"></li>
+                <li>登录</li>
+            </ul>
+            <div class="login-link">
+                <span>还没o2o团购网帐号</span>
+                <a href="{:url('index/User/register')}">注册</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="wrap">
+                <div class="login-logo"></div>
+                <div class="login-area">
+                    <div class="title">登录</div>
+                    <div class="login">
+                        <form id="loginForm" method="post" action="#">
+                            <div class="ordinaryLogin">
+                                
+                                <p class="pass-form-item">
+                                    <label class="pass-label">用户名</label>
+                                    <input datatype="s4-20" nullmsg="用户名必填" errormsg="请输入正确的用户名" sucmsg=" " type="text" name="userName" class="pass-text-input" placeholder="用户名">
+                                </p>
+                                <p class="pass-form-item">
+                                    <label class="pass-label">密码</label>
+                                    <input datatype="*4-9999" nullmsg="密码必填" errormsg="请输入正确的密码" sucmsg=" " type="password" name="password" class="pass-text-input" placeholder="密码">
+                                </p>
+                                
+                            </div>
+                           
+                            <div class="commonLogin">
+                                <p class="pass-form-item">
+                                    <input id="loginBtn" type="submit" value="登录" class="pass-button">
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer" style="text-align: center">
+            <div>
+                <div>2021&nbsp;©&nbsp;o2o&nbsp;[开发者：汪春旺]</div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript" src="__STATIC__/validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/hui/lib/layer/2.1/layer.js"></script>
+<script type="text/javascript">
+    $(".pass-sms-btn").click(function(){
+        $(".ordinaryLogin").css({display: "none"});
+        $(".messageLogin,.question").css({display: "block"});
+    });
+    $(".pass-sms-link").click(function(){
+        $(".messageLogin,.question").css({display: "none"});
+        $(".ordinaryLogin").css({display: "block"});
+    });
+
+    //登录验证
+    $('#loginForm input[name=userName]').focus();
+    $('#loginBtn').click(function () {
+        $('#loginForm').Validform({     //验证
+            tiptype: 3,
+            beforeSubmit: function (xhr) {
+                let postData = $('#loginForm').serializeArray();
+                $.ajax({
+                    url: '{:url("index/User/login")}',
+                    data: postData,
+                    type: 'post',
+                    beforeSend: function(xhr){
+                        $('#loginBtn').html('正在登录...');
+                        layer.load();
+
+                    },
+                    success: function (result) {
+                        let preUrl = location.search.slice(1);
+                        if (result.code===1){
+                            layer.msg(result.msg, {icon:1});
+                            if (!preUrl) {
+                                location.assign('{:url("index/Index/index")}');
+                            }else{
+                                location.assign(preUrl);
+                            }
+                        }else{
+                            layer.msg(result.msg, {icon:2});
+                        }
+                        layer.closeAll('loading');
+                        $('#loginBtn').html('登录');
+                        //更新验证码
+                        // $('#captcha>img').trigger('click');
+
+                    },
+                    error: function (xhr) {
+                        $('#loginBtn').html('登录');
+                        layer.msg(xhr.status + ': ' + xhr.statusText, function () {});
+                        layer.closeAll('loading');
+                        //更新验证码
+                        // $('#captcha>img').trigger('click');
+
+                    },
+                    complete: function (xhr) {
+                        $('#loginBtn').html('登录');
+                        layer.closeAll('loading');
+                        //更新验证码
+                        // $('#captcha>img').trigger('click');
+
+                    }
+                });
+                return false;
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>

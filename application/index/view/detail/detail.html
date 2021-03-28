@@ -1,0 +1,317 @@
+{extend name='/public/base'}
+{block name='content'}
+<link rel="stylesheet" href="__STATIC__/index/css/detail.css" />
+
+<div class="p-detail">
+    <div class="p-bread-crumb">
+        <div class="w-bread-crumb">
+            <ul class="crumb-list">
+                <li class="crumb"><a>团购</a><span class="ico-gt">&gt;</span></li>
+                <li class="crumb"><a>{$goodsData.category_id|shortDesc='bt_category','name'}</a><span class="ico-gt">&gt;</span></li>
+                <li class="crumb crumb-last"><a>{$goodsData.name}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="static-hook-real static-hook-id-5"></div>
+    <div class="p-item-info">
+        <div class="w-item-info">
+            <h2>{$goodsData.name}</h2>
+            <div class="item-title">
+                <span class="text-main">{$goodsData.notes|raw|html_entity_decode}</span>
+            </div>
+            <div class="ii-images static-hook-real static-hook-id-6">
+                <div class="w-item-images">
+                    <div class="images-board">
+                        <div class="item-status ">
+                            <span class="ico-status ico-jingxuan"></span>
+                        </div>
+                        <img src="/public/{$goodsData.image}" class="item-img-large" />
+                    </div>
+                    <ul class="images-list clearfix">
+                        <li class="images images-last">
+                            <img src="/public/{$goodsData.image}" />
+                        </li>
+                    </ul>
+                    <div class="erweima-share-collect">
+                        <ul class="item-option clearfix">
+                            <li class=" ">
+                                <div class="collect-success">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="ii-intro">
+                <div class="w-item-intro">
+                    <div class="price-area-wrap static-hook-real static-hook-id-8">
+                        <div class="price-area has-promotion-icon">
+                            <div class="pic-price-area">
+                                <span class="unit">¥</span>
+                                <span class="priceNum">{$goodsData.current_price}</span>
+                            </div>
+
+                            <div class="market-price-area">
+                                <div class="price">¥{$goodsData.origin_price}</div>
+                                <div class="name">{$goodsData.current_price}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="static-hook-real static-hook-id-9">
+                        <a class="link jingxuan-box" alt="更多精选品牌特惠">
+                            <div class="box">
+
+                                <div class="jx-update" id="j-jxUpdateTime">
+                                    <span>距离结束时间还有</span>
+                                    <span class="jx-timerbox">
+                                        {if $surplusDays>0}
+                                            {$surplusDays}
+                                        {else}
+                                            0秒
+                                        {/if}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <ul class="ugc-strategy-area static-hook-real static-hook-id-10">
+                        <li class="item-bought">
+                            <div class="sl-wrap">
+                                <div class="sl-wrap-cnt">
+                                    <div class="item-bought-num"><span class="intro-strong">{$goodsData.buy_count}</span>人已团购</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="buy-panel-wrap">
+                        <div class="buy-panel">
+                            <div class="validdate-buycount-area static-hook-real static-hook-id-11">
+                                <div class="item-countdown-row">
+                                    <span class="name">有效期</span>
+                                    <span class="value">{$goodsData.end_time}</span>
+                                </div>
+                                <div class="item-buycount-row j-item-buycount-row">
+                                    <div class="name">数&nbsp;&nbsp;&nbsp;量</div>
+                                    <div class="buycount-ctrl">
+                                        <a href="javascript:;" class="j-ctrl ctrl minus disabled"><span class="horizontal"></span></a>
+                                        <input type="text" value="1" maxlength="10" autocomplete="off">
+                                        <a href="javascript:;" class="ctrl j-ctrl plus "><span class="horizontal"></span><span class="vertical"></span></a>
+                                    </div>
+                                    <div class="text-wrap">
+                                        <span class="left-budget">优惠价剩余库存 {$goodsData.total_count} 份</span>
+                                        <span class="err-wrap j-err-wrap"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-buy-area">
+                                <div style="float:left" class="static-hook-real static-hook-id-12">
+                                    {if $surplusDays>0}
+                                        <a id="pay-btn" class="btn-buy btn-buy-qrnew j-btn-buy btn-hit">立即抢购</a>
+                                    {else}
+                                        <a href="" style="background-color: #c0c0c0; pointer-events:none" class="btn-buy btn-buy-qrnew j-btn-buy btn-hit">已售罄</a>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-item-info-more">
+        <div class="iim-wrapper">
+            <div class="spec-nav ">
+                <div class="nav-bar"></div>
+                <div class="w-spec-nav" style="position: static; top: auto; z-index: auto;">
+                    <ul class="sn-list">
+                        <li class="spec-nav-current">
+                            <i></i><a><span>本单详情</span></a>
+                        </li>
+                        <li class="">
+                            <i></i><a><span>消费提示</span></a>
+                        </li>
+                        <li class="">
+                            <i></i><a><span>商家介绍</span></a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <ul class="j-info-all">
+                <li class="tab">
+                    <div class="ia-shop-branch">
+                        <div class="w-shop-branch">
+                            <h3 class="w-section-header">店铺信息</h3>
+                            <div class="branch-content">
+                                <div class="shop-map">
+                                    <div class="w-map">
+                                        <div class="map-container" style="overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236);">
+                                            <img src="{:url('index/Detail/getMap', ['center'=>($goodsData.xpoint.','.$goodsData.ypoint)])}" alt="">
+                                            <a class="map-zoom"><span>查看完整地图</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="branch-detail">
+                                    <div>
+                                        <!--<div class="w-area-filter">
+                                            <label>筛选：</label>
+                                            <select name="city" class="af-content"><option value="100010000" selected="">北京市</option></select>
+                                            <select name="district" class="af-content">
+                                                <option selected="">全部城区</option>
+                                            </select>
+                                        </div>-->
+                                        <div class="branch-list-content">
+                                            <div class="w-branch-list">
+                                                <ul class="branch-list-content">
+                                                    {volist name="busiLoc" id="vo"}
+                                                        <li class="branch branch-open">
+                                                            <a href="#" class="branch-name">{$vo.name}</a>
+                                                            <p class="branch-address">{$vo.address}</p>
+                                                            <p class="branch-tel">{$vo.tel}</p>
+                                                            <p class="map-travel">
+                                                                <a href="javascript:;" class="map">
+                                                                    <span class="icon"></span>
+                                                                    <span class="text">查询地图</span>
+                                                                </a>
+                                                                <a href="javascript:;" class="travel">
+                                                                    <span class="icon"></span>
+                                                                    <span class="text">公交/驾车去这里</span>
+                                                                </a>
+                                                            </p>
+                                                        </li>
+                                                    {/volist}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ifram">本单详情（此处高度随着填充的内容自动变化）</div>
+                </li>
+                <li class="tab">
+                    <h3 class="w-section-header">{$goodsData.notes|raw|html_entity_decode}</h3>
+                    <div class="ifram">消费提示（此处高度随着填充的内容自动变化）</div>
+                </li>
+                <li class="tab">
+                    <h3 class="w-section-header">{$goodsData.desc|raw|html_entity_decode}</h3>
+                    <div class="ifram">商家介绍（此处高度随着填充的内容自动变化）</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //校验正整数
+    function isNaN(number){
+        var reg = /^[1-9]\d*$/;
+        return reg.test(number);
+    }
+
+    function inputChange(num){
+        if(!isNaN(num)){
+            $(".buycount-ctrl input").val("1");
+        }
+        else{
+            $(".buycount-ctrl input").val(num);
+            if(num == 1){
+                $(".buycount-ctrl a").eq(0).addClass("disabled");
+            }
+            else{
+                $(".buycount-ctrl a").eq(0).removeClass("disabled");
+            }
+        }
+    }
+
+    $(".buycount-ctrl input").keyup(function(){
+        var num = $(".buycount-ctrl input").val();
+        inputChange(num);
+    });
+    $(".minus").click(function(){
+        var num = $(".buycount-ctrl input").val();
+        num--;
+        inputChange(num);
+    });
+    $(".plus").click(function(){
+        var num = $(".buycount-ctrl input").val();
+        num++;
+        let allCounts = {$goodsData.total_count};
+        if (num>allCounts){
+            layer.alert('数量不能大于剩余的总数：'+allCounts);
+            return false;
+        }
+        inputChange(num);
+    });
+
+    $(".sn-list li").click(function(){
+        var index = $(".sn-list li").index(this)
+        $(".sn-list li").removeClass("spec-nav-current");
+        $(".j-info-all .tab").css({display: "none"});
+        $(this).addClass("spec-nav-current");
+        $(".j-info-all .tab").eq(index).css({display: "block"});
+    });
+
+    $(".branch").mouseenter(function(){
+        $(".branch").removeClass("branch-open").addClass("branch-close");
+        $(this).removeClass("branch-close").addClass("branch-open");
+    });
+
+    //判断库存方法
+    function judgeCount() {
+        let allCounts = {$goodsData.total_count};
+        var num = $(".buycount-ctrl input").val();
+        if (num>allCounts){
+            layer.alert('数量不能大于剩余的总数：'+allCounts+'，请修改数量。');
+            return false;
+        }
+        return true;
+    }
+
+    //数量输入框失去焦点判断库存
+    $(".buycount-ctrl input").blur(function () {
+        judgeCount();
+    });
+
+    //购买支付-第一步
+    $('#pay-btn').click(function () {
+        let loading;
+        if(!judgeCount()){
+            return;
+        }
+        //获取城市id
+        let cityId = "{$cityObj->id}";
+        //获取数量
+        let counts = $('.buycount-ctrl input').val();
+        let url = "{:url('index/Pay/payStep1',['id'=>$goodsData.id])}?counts="+counts+"&cityId="+cityId;
+        // open(url);
+        $.ajax({
+            url: url,
+            type: 'post',
+            beforeSend: function(xhr){
+                loading = layer.load();
+            },
+            success: function (result) {
+                layer.close(loading);
+                // console.log(result);
+                if (result.code < 0){
+                    layer.alert(result.code+': '+result.msg, {icon: 2});
+                }else {
+                    open(url);
+                }
+            },
+            error: function (xhr) {
+                layer.close(loading);
+                layer.alert(xhr.status+': '+xhr.statusText);
+            }
+        });
+
+    });
+
+</script>
+
+
+{/block}
+
