@@ -211,7 +211,7 @@ create table `bs_recommend`(
 CREATE TABLE `bs_order` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `order_no` varchar(100) NOT NULL COMMENT '订单号',
-    `transaction_no` varchar(100) NOT NULL COMMENT '微信支付交易号',
+    `transaction_no` varchar(100) NOT NULL COMMENT '支付宝交易号',
     `user_id` int(10) unsigned DEFAULT NULL COMMENT '用户id',
     `user_name` varchar(100) DEFAULT NULL,
     `pay_time` datetime DEFAULT NULL COMMENT '支付时间',

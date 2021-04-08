@@ -13,7 +13,7 @@
 return [
     // 应用初始化
     'app_init'     => [
-        app\behavior\ClearTplCache::class
+        app\behavior\ClearTplCache::class,
     ],
     // 应用开始
     'app_begin'    => [
