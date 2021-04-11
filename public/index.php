@@ -13,15 +13,18 @@
 namespace think;
 
 //检查数据库服务
-$dbconfig = include_once('../config/database.php');
+use PDO;
+use PDOException;
+
+$dbconfig = include('../config/database.php');
 $type = $dbconfig['type'];
 $hostname = $dbconfig['hostname'];
 $database = $dbconfig['database'];
 $username = $dbconfig['username'];
 $password = $dbconfig['password'];
 try {
-    $db = new \PDO("$type:host=$hostname;dbname=$database", $username, $password);
-}catch (\PDOException $e){
+    $db = new PDO("$type:host=$hostname;dbname=$database", $username, $password);
+}catch (PDOException $e){
     header('content-type:text/html; charset=utf-8');
     exit('<h1 style="text-align:center; margin-top:300px">〒▽〒 数据库连接失败！请检查数据库服务是否正常。</h1>');
 }
