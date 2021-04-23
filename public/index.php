@@ -22,12 +22,12 @@ $hostname = $dbconfig['hostname'];
 $database = $dbconfig['database'];
 $username = $dbconfig['username'];
 $password = $dbconfig['password'];
-try {
+/*try {
     $db = new PDO("$type:host=$hostname;dbname=$database", $username, $password);
 }catch (PDOException $e){
     header('content-type:text/html; charset=utf-8');
     exit('<h1 style="text-align:center; margin-top:300px">〒▽〒 数据库连接失败！请检查数据库服务是否正常。</h1>');
-}
+}*/
 
 // 加载基础文件
 require __DIR__ . '/../thinkphp/base.php';
